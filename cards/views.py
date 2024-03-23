@@ -13,3 +13,6 @@ def intermediate_random_card(request):
 def advanced_random_card(request):
     card = Card.objects.filter(level='advanced').order_by('?').first()
     return render(request, 'card.html', {'card': card})
+
+def home(request):
+    return render(request, 'home.html')
