@@ -2,10 +2,11 @@
 
 {% block content %}
 
-<div class="card" style="width: 18rem;">
-    <img src="{{ card.image_url }}" class="card-img-top" alt="...">
+<div class="col card" style="width: 18rem;">
+    <h2 class="colcard-title">{{ card.name }}</h2>
+    <img src="{{ card.image_url }}" class="card-img" alt="{{ card.name }}">
     <div class="card-body">
-        <h5 class="card-title">{{ card.name }}</h5>
+        <h5 class="card-title">{{ card.description }}</h5>
     </div>
 
 </div>
