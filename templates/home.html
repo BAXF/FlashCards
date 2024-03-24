@@ -1,14 +1,17 @@
 {%  extends "./base.html" %}
-
+<h1 class="home-header">Select a difficulty</h1>
 {% block content %}
-    <div>
-        <a href="easy">easy</a>
-    </div>
-    <div>
-        <a href="intermediate">intermediate</a>
-    </div>
-    <div>
-        <a href="advanced">advanced</a>
-    </div>
-
+    <div class="container">
+        <div class="row">
+          <div class="col difficulties easy">
+            <a href="easy">easy</a>
+          </div>
+          <div class="col difficulties intermediate">
+            <a href="intermediate">intermediate</a>
+          </div>
+          <div class="col difficulties advanced">
+            <a href="advanced">advanced</a>
+          </div>
+        </div>
+      </div>
 {% endblock %}
