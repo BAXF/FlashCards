@@ -21,6 +21,8 @@ services:
   db:
     image: postgres
     restart: always
+    volumes:
+      - pg_data:/var/lib/postgresql
     environment:
       TZ: Asia/Tehran
     env_file:
@@ -31,3 +33,6 @@ services:
   #   restart: always
   #   ports:
   #     - 8085:8080
+
+volumes:
+  pg_data: {}
