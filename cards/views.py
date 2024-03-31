@@ -1,18 +1,12 @@
 from django.shortcuts import render
 
-from .models import Card
+from .models import Card, CardGroup
 
-def easy_random_card(request):
-    card = Card.objects.filter(level='easy').order_by('?').first()
-    return render(request, 'card.html', {'card': card})
-
-def intermediate_random_card(request):
-    card = Card.objects.filter(level='intermediate').order_by('?').first()
-    return render(request, 'card.html', {'card': card})
-
-def advanced_random_card(request):
-    card = Card.objects.filter(level='advanced').order_by('?').first()
+def get_random_card(request, group):
+    # this will get a random card from the group
+    card = Card.objects.filter(group=group).order_by('?').first()
     return render(request, 'card.html', {'card': card})
 
 def home(request):
-    return render(request, 'home.html')
+    card_groups = CardGroup.objects.all()
+    return render(request, 'home.html', {'card_groups': card_groups})
