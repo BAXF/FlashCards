@@ -1,17 +1,13 @@
 {%  extends "./base.html" %}
-<h1 class="home-header">Select a difficulty</h1>
+<h1 class="home-header">Select a Card Group</h1>
 {% block content %}
     <div class="container">
         <div class="row">
-          <div class="col difficulties easy">
-            <a href="easy">easy</a>
+          {% for group in card_groups %}
+          <div class="col difficulties {{ group.name|lower }}">
+            <a href="{{ group.name|lower }}">{{ group.name }}</a>
           </div>
-          <div class="col difficulties intermediate">
-            <a href="intermediate">intermediate</a>
-          </div>
-          <div class="col difficulties advanced">
-            <a href="advanced">advanced</a>
-          </div>
+          {% endfor %}
         </div>
       </div>
 {% endblock %}
