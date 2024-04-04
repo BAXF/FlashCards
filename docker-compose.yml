@@ -16,7 +16,7 @@ services:
     build: .
     restart: always
     volumes:
-      - ./static:/app/static:ro
+      - ./static:/app/static
     env_file:
       - .env
     depends_on:
