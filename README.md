@@ -57,6 +57,12 @@ If you make changes to the Django models, you will need to create and apply migr
     docker-compose exec web python manage.py migrate
     ```
 
+## Collect statics
+To collect static files:
+    ```bash
+    docker-compose exec web python manage.py collectstatic
+    ```
+
 ## Tips
 - Always create and apply migrations whenever you make changes to your models.
 - If you encounter issues with your database after changing your models, you may need to rebuild your Docker containers. You can do this with 
