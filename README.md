@@ -36,13 +36,13 @@ This will start the PostgreSQL database, Adminer, Nginx, and Django application.
 
 6. Run migrations:
     ```bash
-    docker-compose exec web python manage.py makemigrations
-    docker-compose exec web python manage.py migrate
+    docker-compose exec app python manage.py makemigrations
+    docker-compose exec app python manage.py migrate
     ```
         
 7. Create a superuser:
     ```bash
-    docker-compose exec web python manage.py createsuperuser
+    docker-compose exec app python manage.py createsuperuser
     ```
 
 ## Making changes to Models
@@ -50,17 +50,17 @@ If you make changes to the Django models, you will need to create and apply migr
 
 1. Create migrations:
     ```bash
-    docker-compose exec web python manage.py makemigrations
+    docker-compose exec app python manage.py makemigrations
     ```
 2. Apply migrations:
     ```bash
-    docker-compose exec web python manage.py migrate
+    docker-compose exec app python manage.py migrate
     ```
 
 ## Collect statics
 To collect static files:
     ```bash
-    docker-compose exec web python manage.py collectstatic
+    docker-compose exec app python manage.py collectstatic
     ```
 
 ## Tips
