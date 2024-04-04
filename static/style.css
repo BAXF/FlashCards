@@ -5,3 +5,27 @@
     text-align: center;
     padding-top: 80px;
   }
+
+.card-text:last-child {
+  margin-bottom: 0;
+  float: left;
+  margin-left: -10px;
+}
+
+.card-title {
+  margin-bottom: .5rem;
+  margin-left: 30%;
+}
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: #fff;
+  background-clip: border-box;
+  border: 1px solid rgba(0,0,0,.125);
+  border-radius: .25rem;
+  left: 33%;
+}
