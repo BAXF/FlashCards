@@ -9,6 +9,7 @@ services:
       - 8009:80
     depends_on:
       - app
+
   app:
     image: mparvin/flashcards:latest
     build: .
@@ -19,6 +20,8 @@ services:
       - .env
     depends_on:
       - db
+      - minio
+
   db:
     image: postgres
     restart: always
@@ -32,6 +35,46 @@ services:
     env_file:
       - .env
 
+  minio:
+    image: minio/minio:latest
+    restart: always
+    command: server /data --console-address ":9001"
+    ports:
+      - "9000:9000"  # MinIO API
+      - "9001:9001"  # MinIO Console
+    environment:
+      MINIO_ROOT_USER: ${AWS_ACCESS_KEY_ID}
+      MINIO_ROOT_PASSWORD: ${AWS_SECRET_ACCESS_KEY}
+    volumes:
+      - minio_data:/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+
+  minio-init:
+    image: minio/mc:latest
+    depends_on:
+      minio:
+        condition: service_healthy
+    environment:
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      AWS_STORAGE_BUCKET_NAME: ${AWS_STORAGE_BUCKET_NAME}
+    entrypoint: >
+      /bin/sh -c "
+      mc alias set myminio http://minio:9000 $$AWS_ACCESS_KEY_ID $$AWS_SECRET_ACCESS_KEY;
+      if ! mc ls myminio/$$AWS_STORAGE_BUCKET_NAME >/dev/null 2>&1; then
+        echo 'Creating bucket:' $$AWS_STORAGE_BUCKET_NAME;
+        mc mb myminio/$$AWS_STORAGE_BUCKET_NAME;
+        mc anonymous set public myminio/$$AWS_STORAGE_BUCKET_NAME;
+        echo 'Bucket created and set to public';
+      else
+        echo 'Bucket' $$AWS_STORAGE_BUCKET_NAME 'already exists';
+      fi;
+      "
+
   adminer:
     image: adminer:latest
     restart: always
@@ -40,3 +83,4 @@ services:
 
 volumes:
   pg_data: {}
+  minio_data: {}
