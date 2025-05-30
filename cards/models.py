@@ -26,10 +26,10 @@ class Card(models.Model):
     name = models.CharField(max_length=255)
     group = models.ForeignKey('CardGroup', on_delete=models.CASCADE, null=True, blank=True)
     description = models.TextField()
-    image = models.ImageField(upload_to='cards/')
+    image = models.ImageField(upload_to='cards/', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    user = models.ForeignKey('auth.User', on_delete=models.CASCADE)
+    user = models.ForeignKey('auth.User', on_delete=models.CASCADE, null=True, blank=True)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES.choices, default=STATUS_CHOICES.DRAFT)
 
     class Meta:
