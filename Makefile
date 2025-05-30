@@ -24,6 +24,7 @@ help:
 	@echo "  logs              - Show docker logs from remote server"
 	@echo "  status            - Check container status"
 	@echo "  shell             - Open Django shell on remote server"
+	@echo "  reset             - Complete reset: remove migrations, sync, rebuild database and containers"
 	@echo "  clean             - Clean up remote deployment"
 	@echo "  help              - Show this help message"
 
@@ -117,4 +118,26 @@ manage:
 .PHONY: clean
 clean:
 	@echo "Cleaning up remote deployment..."
-	ssh $(REMOTE_USER)@$(REMOTE_HOST) "cd $(DEPLOY_PATH) && docker compose down -v --remove-orphans && docker system prune -f"
+	ssh $(REMOTE_USER)@$(REMOTE_HOST) "cd $(DEPLOY_PATH) && docker compose down -v --remove-orphans"
+
+# Complete reset: remove migrations, sync, rebuild database and containers
+.PHONY: reset
+reset:
+	@echo "Starting complete reset..."
+	@echo "Step 1: Removing all migration files locally (keeping __init__.py)..."
+	find ./cards/migrations/ -name "*.py" ! -name "__init__.py" -delete
+	@echo "Step 2: Syncing cleaned files to remote server..."
+	$(MAKE) sync
+	@echo "Step 3: Stopping containers and removing volumes..."
+	make clean
+	@echo "Step 4: Starting fresh containers..."
+	make docker-up
+	@echo "Step 5: Waiting for containers to be ready..."
+	sleep 10
+	@echo "Step 6: Creating fresh migrations..."
+	make makemigrations
+	@echo "Step 7: Applying migrations..."
+	make migrate
+	@echo "Step 8: Collecting static files..."
+	make collectstatic
+	@echo "Reset completed successfully!"

@@ -6,7 +6,7 @@ from django.urls import reverse
 class CardGroup(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255, unique=True, null=False, blank=False)
-    image_url = models.URLField(null=True, blank=True)
+    image = models.ImageField(upload_to='card_groups/', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -26,7 +26,7 @@ class Card(models.Model):
     name = models.CharField(max_length=255)
     group = models.ForeignKey('CardGroup', on_delete=models.CASCADE, null=True, blank=True)
     description = models.TextField()
-    image_url = models.URLField()
+    image = models.ImageField(upload_to='cards/')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     user = models.ForeignKey('auth.User', on_delete=models.CASCADE)
