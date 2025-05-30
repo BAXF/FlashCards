@@ -129,15 +129,15 @@ reset:
 	@echo "Step 2: Syncing cleaned files to remote server..."
 	$(MAKE) sync
 	@echo "Step 3: Stopping containers and removing volumes..."
-	make clean
+	$(MAKE) clean
 	@echo "Step 4: Starting fresh containers..."
-	make docker-up
+	$(MAKE) docker-up
 	@echo "Step 5: Waiting for containers to be ready..."
 	sleep 10
 	@echo "Step 6: Creating fresh migrations..."
-	make makemigrations
+	$(MAKE) makemigrations
 	@echo "Step 7: Applying migrations..."
-	make migrate
+	$(MAKE) migrate
 	@echo "Step 8: Collecting static files..."
-	make collectstatic
+	$(MAKE) collectstatic
 	@echo "Reset completed successfully!"
